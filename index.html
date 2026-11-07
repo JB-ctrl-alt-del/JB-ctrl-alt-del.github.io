@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cozy Pixel Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#cfd9ef;--ink:#3b4a7a;--blue:#8fa6d6;--blue2:#6b86c0;--cream:#fbf1cf;--rose:#e8527a;--rose2:#b83a5e;--peach:#f6d3b0;--wall:#a9bce3;--floor:#d9a98a;--sky:#bfe3ff;--wood:#b9825a;--shade:#f6c1d0;--glow:0;--card:#8fa6d6;--cardink:#fbf1cf;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=night]{--bg:#1d2340;--ink:#dfe6ff;--blue:#4a5a93;--blue2:#39467a;--wall:#2c3563;--floor:#4a3a52;--sky:#141a38;--wood:#6e4a46;--shade:#ffd27a;--glow:1;--card:#39467a;--cardink:#fbf1cf}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pixelify Sans","Courier New",monospace;font-size:16px;line-height:1.4;transition:background .6s}
+button{font:inherit;cursor:pointer}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px;background:var(--blue2)}
+.nav button{background:none;border:0;color:var(--cream);padding:6px 14px;border-radius:14px;font-size:17px}
+.nav button.on{background:var(--rose)}
+.nav button:hover{background:var(--rose2)}
+.nav #mode{margin-left:auto;border:2px solid var(--cream)}
+main,#panel{max-width:920px;margin:0 auto;padding:22px 14px 40px}
+h1{margin:0 0 4px;font-size:clamp(26px,6vw,40px);color:var(--ink)}
+.sub{margin:0 0 16px;max-width:52ch}
+svg.roomsvg{width:100%;height:auto;display:block;image-rendering:pixelated;shape-rendering:crispEdges}
+svg text{font-family:inherit;font-size:9px;fill:var(--ink);text-anchor:middle;shape-rendering:auto}
+.hint{margin:10px 0 0;font-size:14px;opacity:.85}
+.hot{cursor:pointer;outline:none}
+.ring{fill:none;stroke:var(--rose);stroke-width:1.2;stroke-dasharray:3 2;opacity:0}
+.hot:hover .ring,.hot:focus-visible .ring{opacity:1}
+.sun{opacity:calc(1 - var(--glow))}.moon,.stars{opacity:var(--glow)}
+.glow{opacity:calc(var(--glow)*.55)}
+.arrow{animation:bob 1.2s steps(2) infinite}
+.screen{animation:flick 3.4s steps(1) infinite}
+.sway{transform-box:fill-box;transform-origin:50% 100%;animation:sway 4s ease-in-out infinite}
+.kid{animation:bob 1.6s steps(2) infinite}
+.dust{fill:var(--cream);opacity:0;animation:drift 9s linear infinite}
+.stars rect{animation:tw 2.4s steps(2) infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+@keyframes flick{0%,92%,100%{opacity:1}94%{opacity:.7}96%{opacity:1}98%{opacity:.8}}
+@keyframes sway{50%{transform:rotate(3deg)}}
+@keyframes drift{0%{opacity:0;transform:translate(0,0)}15%{opacity:.8}100%{opacity:0;transform:translate(14px,-70px)}}
+@keyframes tw{50%{opacity:.2}}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:var(--card);border-radius:14px;padding:16px;text-align:center}
+.card h3{margin:0 0 8px;color:var(--cardink);font-size:22px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.tags span{background:var(--rose);color:var(--cream);border-radius:10px;padding:2px 10px;font-size:13px}
+.prev{background:var(--peach);color:#8a3a4a;border-radius:8px;border:3px solid var(--cream);padding:14px;min-height:96px;margin-bottom:14px;font-size:15px}
+.prev b{display:block;color:var(--rose2);font-size:18px;margin-bottom:4px}
+.btns{display:flex;gap:8px;justify-content:center}
+.pbtn,.bbtn{border:0;border-radius:14px;padding:7px 16px;font-size:16px;color:var(--cream);text-decoration:none;transition:transform .1s}
+.pbtn{background:var(--rose);box-shadow:0 4px 0 var(--rose2)}
+.bbtn{background:var(--blue2);box-shadow:0 4px 0 #475f9c;border:2px solid var(--cream)}
+.pbtn:active,.bbtn:active{transform:translateY(3px);box-shadow:none}
+.badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.badge{background:var(--card);border:0;border-radius:14px;padding:18px 10px;color:var(--cardink);text-align:center}
+.badge i{display:block;width:44px;height:44px;margin:0 auto 10px;background:var(--rose);border:4px solid var(--cream);border-radius:10px;transition:transform .5s}
+.badge:hover i{transform:rotate(360deg)}
+#pop{position:fixed;inset:0;z-index:20;background:rgba(20,26,56,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+#pop[hidden]{display:none}
+.box{background:var(--peach);color:#8a3a4a;border:5px solid var(--cream);border-radius:14px;max-width:340px;width:100%;padding:18px;text-align:center;animation:pop .25s steps(5)}
+.box h3{margin:0 0 8px;color:var(--rose2)}
+.box{max-height:90vh;overflow-y:auto}
+.x{float:right;background:none;border:0;color:var(--rose2);font-size:20px}
+.face{width:130px;height:74px;margin:8px auto;background:#2c3563;border:4px solid var(--cream);border-radius:12px;display:flex;gap:22px;align-items:center;justify-content:center}
+.face i{width:16px;height:24px;background:var(--cream);animation:blink 4s steps(1) infinite}
+.face.red i{background:#ff3b3b}
+@keyframes blink{0%,94%,100%{height:24px}96%{height:4px}}
+.bar{display:flex;align-items:center;gap:8px;font-size:14px;margin:4px 0}
+.bar span{width:58px;text-align:left}.bar div{flex:1;height:10px;background:var(--cream);border-radius:5px;overflow:hidden}
+.bar em{display:block;height:100%;background:var(--rose);transition:width .4s}
+.say{min-height:40px;font-size:15px}
+.log{max-height:110px;overflow:auto;text-align:left;font-size:14px;margin:8px 0;padding:8px;background:var(--cream);border-radius:8px}
+.log p{margin:0 0 6px}.log .me{color:var(--blue2)}.log .gir{color:var(--rose2)}
+.chat{display:flex;gap:6px}.chat input{flex:1;min-width:0;font:inherit;font-size:14px;padding:6px 10px;border:3px solid var(--cream);border-radius:10px;background:#fff8e6;color:#8a3a4a}
+.note{font-size:12px;opacity:.7;margin:4px 0 0}
+.wrap{border:4px solid var(--cream);border-radius:10px;overflow:hidden;background:var(--wall)}
+#walker{transition:transform .9s steps(9)}
+#sv{transition:transform .7s ease-in}
+.bubble{opacity:0;transition:opacity .2s}.bubble.on{opacity:1}
+.tail{transform-box:fill-box;transform-origin:100% 100%;animation:sway 3s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <button data-t="room" class="on">Home</button>
+  <button data-t="projects">Projects</button>
+  <button data-t="awards">Achievements</button>
+  <button data-t="about">About</button>
+  <button id="mode">Night</button>
+</header>
+
+<main id="room">
+  <h1>Hi, I’m Jaylen</h1>
+  <p class="sub">I build AI tools and little companions. Look around the room and tap what glows.</p>
+  <div class="wrap"><svg id="sv" class="roomsvg" viewBox="0 0 320 200" role="img" aria-label="A cozy pixel room with a computer, a trophy shelf, a poster, a lamp and a plant">
+    <rect x="0" y="0" width="320" height="140" fill="var(--wall)"/>
+    <rect x="0" y="140" width="320" height="60" fill="var(--floor)"/>
+    <rect x="0" y="138" width="320" height="4" fill="var(--wood)"/>
+    <rect x="20" y="22" width="68" height="56" fill="#fbf1cf"/>
+    <rect x="24" y="26" width="60" height="48" fill="var(--sky)"/>
+    <g class="sun"><rect x="60" y="32" width="10" height="10" fill="#ffe27a"/><rect x="30" y="52" width="18" height="5" fill="#fff"/><rect x="34" y="48" width="10" height="5" fill="#fff"/></g>
+    <g class="moon"><rect x="62" y="32" width="8" height="8" fill="#fbf1cf"/><rect x="65" y="32" width="5" height="5" fill="var(--sky)"/></g>
+    <g class="stars"><rect x="32" y="34" width="2" height="2" fill="#fff"/><rect x="46" y="44" width="2" height="2" fill="#fff" style="animation-delay:.8s"/><rect x="74" y="56" width="2" height="2" fill="#fff" style="animation-delay:1.4s"/></g>
+    <rect x="53" y="26" width="2" height="48" fill="#fbf1cf"/><rect x="24" y="49" width="60" height="2" fill="#fbf1cf"/>
+
+    <g class="hot" data-open="about" tabindex="0" role="button" aria-label="About me">
+      <rect x="104" y="28" width="34" height="44" fill="#f3a6b8" stroke="#fbf1cf" stroke-width="3"/>
+      <rect x="116" y="40" width="10" height="10" fill="#fbf1cf"/><rect x="112" y="52" width="18" height="8" fill="#e8527a"/>
+      <rect class="ring" x="99" y="23" width="44" height="54"/><text x="121" y="87">About</text>
+    </g>
+
+    <g class="hot" data-open="awards" tabindex="0" role="button" aria-label="Achievements shelf">
+      <rect x="216" y="72" width="92" height="5" fill="var(--wood)"/>
+      <rect x="226" y="52" width="14" height="20" fill="#e8527a"/><rect x="228" y="48" width="10" height="4" fill="#ffe27a"/>
+      <rect x="254" y="58" width="14" height="14" fill="#6b86c0"/><rect x="278" y="48" width="14" height="24" fill="#b7c25a"/>
+      <rect class="ring" x="212" y="40" width="100" height="40"/><text x="262" y="92">Achievements</text>
+    </g>
+
+    <g class="hot" data-open="projects" tabindex="0" role="button" aria-label="Projects computer">
+      <rect x="134" y="82" width="52" height="36" fill="#dfe5f5"/>
+      <rect class="screen" x="138" y="86" width="44" height="28" fill="#2c3563"/>
+      <rect x="143" y="92" width="22" height="3" fill="#e8527a"/><rect x="143" y="99" width="30" height="3" fill="#b7c25a"/><rect x="143" y="106" width="16" height="3" fill="#fbf1cf"/>
+      <rect x="156" y="118" width="8" height="4" fill="#dfe5f5"/>
+      <rect class="ring" x="130" y="78" width="60" height="46"/>
+      <g class="arrow"><polygon points="154,66 166,66 160,74" fill="#e8527a"/></g>
+    </g>
+    <rect x="96" y="122" width="128" height="8" fill="var(--wood)"/>
+    <rect x="104" y="130" width="6" height="32" fill="var(--wood)"/><rect x="210" y="130" width="6" height="32" fill="var(--wood)"/>
+
+    <g class="hot" data-open="mode" tabindex="0" role="button" aria-label="Toggle day and night lamp">
+      <circle class="glow" cx="208" cy="100" r="22" fill="#ffd27a"/>
+      <rect x="206" y="108" width="3" height="14" fill="#fbf1cf"/><rect x="198" y="98" width="19" height="9" fill="var(--shade)"/>
+      <rect class="ring" x="194" y="94" width="27" height="30"/>
+    </g>
+
+    <g class="sway"><rect x="266" y="116" width="4" height="18" fill="#6c9a4a"/><rect x="258" y="112" width="10" height="8" fill="#b7c25a"/><rect x="268" y="108" width="10" height="8" fill="#6c9a4a"/></g>
+    <rect x="260" y="134" width="18" height="14" fill="#e8527a"/>
+
+    <rect x="88" y="164" width="144" height="26" fill="#e8a0b4"/><rect x="92" y="168" width="136" height="18" fill="#f3c1cf"/>
+    <g class="hot" data-open="cat" tabindex="0" role="button" aria-label="Boonka the cat"><g class="tail"><rect x="172" y="170" width="4" height="12" fill="#1c1c26"/></g><rect x="176" y="170" width="22" height="12" fill="#1c1c26"/><rect x="180" y="177" width="14" height="5" fill="#f4f4f4"/><rect x="194" y="162" width="12" height="11" fill="#1c1c26"/><rect x="194" y="159" width="3" height="4" fill="#1c1c26"/><rect x="203" y="159" width="3" height="4" fill="#1c1c26"/><rect x="197" y="166" width="2" height="2" fill="#ffe27a"/><rect x="202" y="166" width="2" height="2" fill="#ffe27a"/><rect x="196" y="182" width="4" height="3" fill="#1c1c26"/><rect x="178" y="182" width="4" height="3" fill="#1c1c26"/><rect class="ring" x="168" y="156" width="42" height="32"/></g>
+    <g id="walker"><g class="kid"><rect x="50" y="130" width="12" height="12" fill="#f6d3b0"/><rect x="48" y="127" width="16" height="5" fill="#e8527a"/><rect x="50" y="142" width="12" height="14" fill="#6b86c0"/><rect x="50" y="156" width="4" height="6" fill="#3b4a7a"/><rect x="58" y="156" width="4" height="6" fill="#3b4a7a"/></g></g>
+    <g id="bub" class="bubble"><rect x="150" y="140" width="76" height="14" fill="#fbf1cf" stroke="#e8527a" stroke-width="1"/><polygon points="184,154 192,154 190,159" fill="#fbf1cf"/><text x="188" y="150" style="fill:#8a3a4a">my cat boonka</text></g>
+    <rect class="dust" x="40" y="120" width="2" height="2" style="animation-delay:0s"/><rect class="dust" x="150" y="130" width="2" height="2" style="animation-delay:2s"/><rect class="dust" x="230" y="120" width="2" height="2" style="animation-delay:4s"/><rect class="dust" x="100" y="110" width="2" height="2" style="animation-delay:6s"/><rect class="dust" x="285" y="100" width="2" height="2" style="animation-delay:7.5s"/>
+  </svg></div>
+  <p class="hint">Tap anything in the room and your little friend will walk over. Try the computer, the shelf, the poster, the lamp, or say hi to Boonka.</p>
+</main>
+
+<section id="panel" hidden></section>
+<div id="pop" hidden></div>
+
+<script>
+// Edit these lists to change what shows up on the site.
+const GITHUB = "https://github.com/JB-ctrl-alt-del"; // swap in a specific repo link per project later
+const P = [
+  {id:"gir", name:"Unit", tags:["Python","Anthropic API","tkinter"], status:"Working", blurb:"A pocket AI pal with moods, hunger, tasks and an alert mode. A Raspberry Pi body is next."},
+  {id:"site", name:"Pixel Portfolio", tags:["HTML","CSS","JavaScript"], status:"Live", blurb:"This room, built from scratch with pixel art and a little motion."},
+  {id:"agents", name:"Agent Dashboard", tags:["Concept","AI agents"], status:"Concept", blurb:"A visual home for AI agents that run small automated businesses."},
+  {id:"tax", name:"Tax Set-Aside App", tags:["Concept","Plaid"], status:"Concept", blurb:"For 1099 workers: works out taxes owed and sets that money aside."}
+];
+const A = [
+  {n:"Unit 1.0", d:"A terminal chat prototype with stats that decay over time."},
+  {n:"Face on", d:"A tkinter window with an animated face and a red-eyed alert mode."},
+  {n:"Task layer", d:"Reminders and tasks that save between sessions."},
+  {n:"First commit", d:"Replace this with the date of your first GitHub commit."}
+];
+const $ = s => document.querySelector(s);
+const root = document.documentElement;
+let timer;
+
+function theme(night){ root.dataset.theme = night ? "night" : "day"; $("#mode").textContent = night ? "Day" : "Night"; }
+theme(matchMedia("(prefers-color-scheme: dark)").matches);
+$("#mode").onclick = () => theme(root.dataset.theme !== "night");
+
+const views = {
+  projects: () => `<h1>Projects</h1><p class="sub">Tap Try me to use one right here.</p><div class="grid">` + P.map(p => `
+    <div class="card"><h3>${p.name}</h3>
+      <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
+      <div class="prev"><b>${p.status}</b>${p.blurb}</div>
+      <div class="btns"><button class="pbtn" data-try="${p.id}">Try me!</button><a class="bbtn" href="${GITHUB}" target="_blank" rel="noopener">View details</a></div>
+    </div>`).join("") + `</div>`,
+  awards: () => `<h1>Achievements</h1><p class="sub">Tap a badge for the story.</p><div class="badges">` +
+    A.map((a, i) => `<button class="badge" data-try="ach:${i}"><i></i>${a.n}</button>`).join("") + `</div>`,
+  about: () => `<h1>About</h1><p class="sub">I’m Jaylen. I’ve built Unit, a companion app. I’m working on AI automations and learning more Python and Java as I go.</p>
+    <div class="btns" style="justify-content:flex-start"><a class="pbtn" href="${GITHUB}" target="_blank" rel="noopener">GitHub</a></div>`
+};
+
+function show(t){
+  document.querySelectorAll("#nav [data-t]").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  const p = $("#panel");
+  if (t === "room"){ p.hidden = true; $("#room").hidden = false; return; }
+  $("#room").hidden = true; p.hidden = false; p.innerHTML = views[t]();
+  p.querySelectorAll("[data-try]").forEach(b => b.onclick = () => pop(b.dataset.try));
+  scrollTo(0, 0);
+}
+document.querySelectorAll("#nav [data-t]").forEach(b => b.onclick = () => show(b.dataset.t));
+const SPOT = {projects:[126,0], awards:[232,0], about:[104,0], mode:[184,0], cat:[148,12]};
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let busy = false;
+function walkTo(k, done){
+  if (busy) return; busy = true;
+  const [x, y] = SPOT[k];
+  $("#walker").style.transform = `translate(${x - 48}px,${y}px)`;
+  setTimeout(() => { done(); busy = false; }, calm ? 0 : 1000);
+}
+function act(k){
+  if (k === "mode") $("#mode").click();
+  else if (k === "cat"){ const b = $("#bub"); b.classList.add("on"); clearTimeout(b.t); b.t = setTimeout(() => b.classList.remove("on"), 2400); }
+  else if (k === "projects"){
+    const sv = $("#sv"); sv.style.transform = "scale(1.9)";
+    setTimeout(() => { show("projects"); sv.style.transition = "none"; sv.style.transform = ""; setTimeout(() => sv.style.transition = "", 50); }, calm ? 0 : 750);
+  } else show(k);
+}
+document.querySelectorAll("[data-open]").forEach(g => {
+  const go = () => walkTo(g.dataset.open, () => act(g.dataset.open));
+  g.onclick = go;
+  g.onkeydown = e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } };
+});
+
+function close(){ clearInterval(timer); $("#pop").hidden = true; }
+$("#pop").onclick = e => { if (e.target.id === "pop") close(); };
+addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+
+function pop(id){
+  let h;
+  if (id.startsWith("ach:")){ const a = A[+id.slice(4)]; h = `<h3>${a.n}</h3><p>${a.d}</p>`; }
+  else if (id === "gir"){
+    h = `<h3>Unit says hi</h3><div class="face" id="gf"><i></i><i></i></div>
+      <div class="bar"><span>Hunger</span><div><em id="b1"></em></div></div>
+      <div class="bar"><span>Energy</span><div><em id="b2"></em></div></div>
+      <div class="bar"><span>Mood</span><div><em id="b3"></em></div></div>
+      <p class="say" id="say">Hi! Feed me, I’m a little hungry.</p>
+      <div class="btns"><button class="pbtn" id="feed">Feed</button><button class="bbtn" id="alert">Alert mode</button></div>
+      <div class="log" id="log"><p class="gir">Unit: Ask me something simple!</p></div><div class="chat"><input id="q" maxlength="160" placeholder="Ask Unit something..." aria-label="Ask Unit"><button class="pbtn" id="send">Send</button></div><p class="note" id="note"></p>`;
+  } else {
+    const p = P.find(x => x.id === id);
+    h = `<h3>${p.name}</h3><p>${id === "site" ? "You’re already inside it. Try the lamp in the room." : "This one is still a concept, so there’s no demo yet."}</p>`;
+  }
+  $("#pop").innerHTML = `<div class="box"><button class="x" aria-label="Close">x</button>${h}</div>`;
+  $("#pop").hidden = false;
+  $(".x").onclick = close;
+  if (id === "gir") gir();
+}
+
+function gir(){
+  let hunger = 55, energy = 80, alert = false;
+  const draw = () => {
+    $("#b1").style.width = hunger + "%"; $("#b2").style.width = energy + "%";
+    $("#b3").style.width = Math.round((hunger + energy) / 2) + "%";
+  };
+  draw();
+  $("#feed").onclick = () => { hunger = Math.min(100, hunger + 20); $("#say").textContent = alert ? "Fuel received. Continuing the mission." : "Yum! Thank you, that was a good snack."; draw(); };
+  $("#alert").onclick = () => {
+    alert = !alert; $("#gf").classList.toggle("red", alert);
+    $("#say").textContent = alert ? "ALERT MODE. All systems focused." : "Back to cozy mode.";
+  };
+  const log = $("#log"), add = (who, t) => { const p = document.createElement("p"); p.className = who; p.textContent = (who === "me" ? "You: " : "Unit: ") + t; log.appendChild(p); log.scrollTop = log.scrollHeight; return p; };
+  const offline = q => {
+    const s = q.toLowerCase();
+    if (/\b(hi|hello|hey)\b/.test(s)) return alert ? "Online. State your request." : "Hi hi! Good to see you.";
+    if (/name|who are you/.test(s)) return "I’m Unit, a pocket companion built with Python.";
+    if (/hungry|food|eat/.test(s)) return hunger < 40 ? "Very hungry. Please press Feed." : "I’m okay for now, thanks for asking.";
+    if (/joke/.test(s)) return "Why did the bug cross the road? It was stuck in a loop.";
+    if (/time|date/.test(s)) return "It’s " + new Date().toLocaleString() + " where you are.";
+    if (/what can you do|help/.test(s)) return "I chat, track my mood and set reminders in the full version.";
+    return alert ? "Unclear. Rephrase the question." : "Hmm, I only know a few things in this demo. Try hello, joke or what can you do.";
+  };
+  let thinking = false;
+  const send = async () => {
+    const q = $("#q").value.trim().slice(0, 160);
+    if (!q || thinking) return;
+    $("#q").value = ""; add("me", q); thinking = true;
+    const w = add("gir", "...");
+    let r = null, live = false;
+    try {
+      const s = window.claude && await claude.use("sample");
+      if (s){
+        const out = await s(`You are Unit, a tiny pocket AI companion on a portfolio website. Personality: ${alert ? "serious and mission-focused, short clipped sentences" : "playful, cozy and a little cheeky"}. Your stats right now: hunger ${hunger}/100, energy ${energy}/100. Answer the visitor in at most two short sentences, plain text only, no markdown. If asked about your maker, say a developer built you with Python and the Anthropic API.\n\nVisitor question: ${q}`, {cache: false, modelTier: "quick"});
+        r = out.text; live = true;
+      }
+    } catch (e) {}
+    if (!r) r = offline(q);
+    w.textContent = "Unit: " + r; $("#note").textContent = live ? "Live reply from Claude" : "Built-in demo reply";
+    thinking = false;
+  };
+  $("#send").onclick = send;
+  $("#q").onkeydown = e => { if (e.key === "Enter") send(); };
+  timer = setInterval(() => { hunger = Math.max(0, hunger - 2); energy = Math.max(0, energy - 1); draw();
+    if (hunger < 20 && !alert) $("#say").textContent = "My tummy is rumbling..."; }, 1500);
+}
+</script>
+</body>
+</html>

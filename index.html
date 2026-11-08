@@ -155,8 +155,8 @@ svg text{font-family:inherit;font-size:9px;fill:var(--ink);text-anchor:middle;sh
 // Edit these lists to change what shows up on the site.
 const GITHUB = "https://github.com/JB-ctrl-alt-del"; // swap in a specific repo link per project later
 const P = [
-  {id:"gir", name:"Unit", tags:["Python","Anthropic API","tkinter"], status:"Working", blurb:"A pocket AI pal with moods, hunger, tasks and an alert mode. A Raspberry Pi body is next."},
-  {id:"site", name:"Pixel Portfolio", tags:["HTML","CSS","JavaScript"], status:"Live", blurb:"This room, built from scratch with pixel art and a little motion."},
+  {id:"gir", repo:"https://github.com/JB-ctrl-alt-del/Unit-Companion", name:"Unit", tags:["Python","Anthropic API","tkinter"], status:"Working", blurb:"A pocket AI pal with moods, hunger, tasks and an alert mode. A Raspberry Pi body is next."},
+  {id:"site", repo:"https://github.com/JB-ctrl-alt-del/JB-ctrl-alt-del.github.io", name:"Pixel Portfolio", tags:["HTML","CSS","JavaScript"], status:"Live", blurb:"This room, built from scratch with pixel art and a little motion."},
   {id:"agents", name:"Agent Dashboard", tags:["Concept","AI agents"], status:"Concept", blurb:"A visual home for AI agents that run small automated businesses."},
   {id:"tax", name:"Tax Set-Aside App", tags:["Concept","Plaid"], status:"Concept", blurb:"For 1099 workers: works out taxes owed and sets that money aside."}
 ];
@@ -179,7 +179,7 @@ const views = {
     <div class="card"><h3>${p.name}</h3>
       <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
       <div class="prev"><b>${p.status}</b>${p.blurb}</div>
-      <div class="btns"><button class="pbtn" data-try="${p.id}">Try me!</button><a class="bbtn" href="${GITHUB}" target="_blank" rel="noopener">View details</a></div>
+      <div class="btns"><button class="pbtn" data-try="${p.id}">Try me!</button><a class="bbtn" href="${p.repo || GITHUB}" target="_blank" rel="noopener">View details</a></div>
     </div>`).join("") + `</div>`,
   awards: () => `<h1>Achievements</h1><p class="sub">Tap a badge for the story.</p><div class="badges">` +
     A.map((a, i) => `<button class="badge" data-try="ach:${i}"><i></i>${a.n}</button>`).join("") + `</div>`,
